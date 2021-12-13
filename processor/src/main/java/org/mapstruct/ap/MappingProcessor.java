@@ -124,6 +124,7 @@ public class MappingProcessor extends AbstractProcessor {
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
         super.init( processingEnv );
+        processingEnv.getFiler();
 
         options = createOptions();
         annotationProcessorContext = new AnnotationProcessorContext(
@@ -167,6 +168,12 @@ public class MappingProcessor extends AbstractProcessor {
 
             // get and process any mappers from this round
             Set<TypeElement> mappers = getMappers( annotations, roundEnvironment );
+
+            for (TypeElement mapper : mappers) {
+                List<? extends TypeMirror> interfaces = mapper.getInterfaces();
+                System.out.println(interfaces);
+            }
+
             processMapperElements( mappers, roundContext );
         }
         else if ( !deferredMappers.isEmpty() ) {
@@ -267,7 +274,7 @@ public class MappingProcessor extends AbstractProcessor {
                 ProcessorContext context = new DefaultModelElementProcessorContext(
                         processingEnv, options, roundContext, getDeclaredTypesNotToBeImported( mapperElement )
                 );
-
+                //TODO-zhaob
                 processMapperTypeElement( context, mapperElement );
             }
             catch ( TypeHierarchyErroneousException thie ) {

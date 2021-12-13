@@ -24,6 +24,7 @@ public class BooleanMappingTest {
         //given
         Person person = new Person();
         person.setMarried( Boolean.TRUE );
+        //TODO-zhaob
 
         //when
         PersonDto personDto = PersonMapper.INSTANCE.personToDto( person );
